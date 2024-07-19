@@ -10,7 +10,7 @@ RetroArcade tema para pegasus frontend.
 # Mensajes Informativos:
 - He añadido mensajes informativos en las siguientes situaciones:
 - Continue Playing y Favorite Games: Si no hay juegos en estas colecciones, se muestra un mensaje informativo para indicar la ausencia de juegos.
-- Search Games: Si no se encuentra el juego buscado, se muestra un mensaje informativo para notificar al usuario.
+- Search Games: Si no se encuentra el juego buscado, se muestra un mensaje informativo para notificar al usuario que no hay coincidencia para su busqueda.
 # Aceptación de Sugerencias:
 - Estoy abierto a sugerencias y comentarios sobre esta interfaz. Si tienes alguna idea o recomendación para mejorar la experiencia del usuario, no dudes en compartirla. Tu retroalimentación es valiosa para mi y me ayudará a perfeccionar aún más este tema.
 # Licencia
