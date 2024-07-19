@@ -19,6 +19,8 @@ RetroArcade tema para pegasus frontend.
 - FAVORITE GAMES: "🎔"
   # Gestión de Juegos Favoritos:
 - La opción de agregar o quitar un juego de la colección "FAVORITE GAMES" se puede hacer desde cualquiera de las cuatro opciones del menú principal. Es decir, se puede agregar o quitar de favorito cualquier juego desde "ALL GAMES", "SEARCH GAMES", "CONTINUE PLAYING" y, obviamente, desde "FAVORITE GAMES". Al marcar un juego como favorito, automáticamente se cambiará la etiqueta a "🎔", sin importar en qué sección se encuentre, para poder identificar si el juego es parte de su colección de favoritos.
+  # Gestión de Seguir Jugando:
+  - La opción 'Continue Playing' mostrará únicamente los juegos con más de un minuto de juego y que se hayan jugado en los últimos 7 días. Esta selección tiene como objetivo mantener una colección más limpia y actualizada, excluyendo juegos con menos de un minuto de juego y que no se han jugado en los últimos 7 días, evitando así acumular juegos lanzados por error.
   
 # Aceptación de Sugerencias:
 - Estoy abierto a sugerencias y comentarios sobre esta interfaz. Si tienes alguna idea o recomendación para mejorar la experiencia del usuario, no dudes en compartirla. Tu retroalimentación es valiosa para mi y me ayudará a perfeccionar aún más este tema.
