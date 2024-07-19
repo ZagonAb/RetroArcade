@@ -6,7 +6,11 @@ RetroArcade tema para pegasus frontend.
 # Navegación con Teclas Direccionales:
 - Los usuarios pueden navegar entre las opciones del menú utilizando las teclas direccionales del teclado o del controlador.
 # Sonidos de Navegación y Selección:
-- Cada movimiento entre opciones y la selección de una opción vienen acompañados de efectos de sonido retro, mejorando la experiencia de usuario.
+- Cada movimiento entre opciones y la selección de una opción están acompañados de efectos de sonido retro, incluyendo el momento de lanzar un juego, lo que mejora la experiencia del usuario.
+# Mensajes Informativos:
+- He añadido mensajes informativos en las siguientes situaciones:
+- Continue Playing y Favorite Games: Si no hay juegos en estas colecciones, se muestra un mensaje informativo para indicar la ausencia de juegos.
+- Search Games: Si no se encuentra el juego buscado, se muestra un mensaje informativo para notificar al usuario.
 # Aceptación de Sugerencias:
 - Estoy abierto a sugerencias y comentarios sobre esta interfaz. Si tienes alguna idea o recomendación para mejorar la experiencia del usuario, no dudes en compartirla. Tu retroalimentación es valiosa para mi y me ayudará a perfeccionar aún más este tema.
 # Licencia
