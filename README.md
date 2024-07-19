@@ -29,6 +29,9 @@ RetroArcade tema para pegasus frontend.
 ![7](https://github.com/user-attachments/assets/a2332ad1-8fa2-4478-b75e-75aeb2625a3f)
 ![5](https://github.com/user-attachments/assets/15534266-e2fe-4af8-a5db-60916c7f31b8)
 ![6](https://github.com/user-attachments/assets/abab9b4d-0288-4453-bb66-cf3478af7b91)
+![8](https://github.com/user-attachments/assets/5ef28d9a-8c18-4439-a43d-583daf20c67e)
+![9](https://github.com/user-attachments/assets/86a90ea1-2fbd-4c9f-9faf-ab5255f5fe18)
+
 
 
 
