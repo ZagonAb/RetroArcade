@@ -128,7 +128,7 @@ FocusScope {
 
     AnimatedImage {
         id: gifBackground
-        source: "assets/background/fondo2.gif"
+        source: "assets/background/background.gif"
         anchors.fill: parent
         playing: true
     }
@@ -1368,7 +1368,7 @@ FocusScope {
     }
 
     Image {
-        id: backgroundImage
+        id: overlayImage
         source: "assets/overlays/overlay0.png"
         anchors.fill: parent
     }
