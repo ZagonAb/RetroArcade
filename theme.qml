@@ -99,36 +99,36 @@ FocusScope {
       
     SoundEffect {
         id: shiftSound
-        source: "assets/Shi.wav"
+        source: "assets/sounds/Shi.wav"
         volume: 0.20
     }
 
     SoundEffect {
         id: favSound
-        source: "assets/Fav.wav"
+        source: "assets/sounds/Fav.wav"
         volume: 0.30
     }
       
     SoundEffect {
         id: selectSound
-        source: "assets/Select.wav"
+        source: "assets/sounds/Select.wav"
         volume: 0.20
     }
 
     SoundEffect {
         id: launchSound
-        source: "assets/Launch.wav"
+        source: "assets/sounds/Launch.wav"
         volume: 1.50
     }
 
     FontLoader {
         id: fontLoader
-        source: "font/ARCADE.TTF"
+        source: "assets/font/ARCADE.TTF"
     }
 
     AnimatedImage {
         id: gifBackground
-        source: "fondo2.gif"
+        source: "assets/background/fondo2.gif"
         anchors.fill: parent
         playing: true
     }
@@ -153,66 +153,11 @@ FocusScope {
             anchors.topMargin: 5  
             visible: mainMenuVisible
 
-            Text {
-                id: retroText
-                text: "RETRO"
+            Image {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                font.family: fontLoader.name
-                font.bold: true
-                color: "#fff900"
-                property real minFontSize: 10
-                property real maxFontSize: 38
-
-                function adjustFontSize() {
-                    var containerSize = Math.min(retroArcdeText.width, retroArcdeText.height) * 0.8;
-                    font.pixelSize = Math.max(minFontSize, Math.min(maxFontSize, containerSize));
-                }
-
-                Component.onCompleted: adjustFontSize()
-                onWidthChanged: adjustFontSize()
-                onHeightChanged: adjustFontSize()
-            }
-
-            Text {
-                id: arcadeText
-                text: "ARCADE"
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: retroText.bottom
-                font.family: fontLoader.name
-                font.bold: true
-                color: "#fff900"
-                property real minFontSize: 20
-                property real maxFontSize: 64
-
-                function adjustFontSize() {
-                    var containerSize = Math.min(retroArcdeText.width, retroArcdeText.height) * 0.12;
-                    font.pixelSize = Math.max(minFontSize, Math.min(maxFontSize, containerSize));
-                }
-
-                Component.onCompleted: adjustFontSize()
-                onWidthChanged: adjustFontSize()
-                onHeightChanged: adjustFontSize()
-            }
-
-            DropShadow {
-                anchors.fill: retroText
-                source: retroText
-                radius: 5
-                samples: 40
-                color: "#f21f25"
-                horizontalOffset: -4
-                verticalOffset: 4
-            }
-
-            DropShadow {
-                anchors.fill: arcadeText
-                source: arcadeText
-                radius: 5
-                samples: 40
-                color: "#f21f25"
-                horizontalOffset: -4
-                verticalOffset: 4
+                sourceSize { width: 556; height: 115 }
+                source: "assets/title/title.png"
             }
         }
     }
@@ -1424,7 +1369,7 @@ FocusScope {
 
     Image {
         id: backgroundImage
-        source: "fondo.png"
+        source: "assets/overlays/overlay0.png"
         anchors.fill: parent
     }
 
