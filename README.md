@@ -22,7 +22,8 @@ RetroArcade tema para pegasus frontend.
   # Gestión de Seguir Jugando:
 - La opción 'Continue Playing' mostrará únicamente los juegos con más de un minuto de juego y que se hayan jugado en los últimos 7 días. Esta selección tiene como objetivo mantener una colección más limpia y actualizada, excluyendo juegos con menos de un minuto de juego y que no se han jugado en los últimos 7 días, evitando así acumular juegos lanzados por error.
 # Gif
-![demo](https://github.com/user-attachments/assets/065b947f-57ce-4eb6-ad8e-df192f330c68)
+
+![Demogif](https://github.com/user-attachments/assets/e11e5a72-e7c2-48bf-bca5-1ccdc19ad552)
 
 # Capturas
 ![1](https://github.com/user-attachments/assets/bfc21cf6-7ab3-4f0a-8bab-f2705cec70f8)
