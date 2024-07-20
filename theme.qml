@@ -91,7 +91,7 @@ FocusScope {
 
     Audio {
         id: audioPlayer
-        source: "assets/sound.wav"
+        source: "assets/sounds.wav"
         loops: Audio.Infinite
         autoPlay: true
         volume: 0.30
