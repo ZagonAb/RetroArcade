@@ -134,7 +134,9 @@ FocusScope {
     AnimatedImage {
         id: gifBackground
         source: "assets/background/background.gif"
-        anchors.fill: parent
+        width: parent.width * 0.68
+        height: parent.height * 0.90
+        anchors.centerIn: parent
         playing: true
     }
 
@@ -683,7 +685,7 @@ FocusScope {
                 clip: true
                 delegate: Item {
                     width: gameListView.width
-                    height: gameListView.height * 0.1
+                    height: gameListView.height * 0.08
                     property string shortenedTitle: {
                         var maxLength = 26;
                         if (modelData.title.length > maxLength) {
@@ -710,7 +712,7 @@ FocusScope {
                             }
                         }
                         font.family: fontLoader.name
-                        font.pixelSize: 32
+                        font.pixelSize: 27
                         fontSizeMode: Text.Fit
                         minimumPixelSize: 10
                         color: "yellow"
@@ -899,7 +901,7 @@ FocusScope {
                 delegate: Item {
 
                     width: recentListView.width
-                    height: recentListView.height * 0.1
+                    height: recentListView.height * 0.08
 
                     property string shortenedTitle: {
                         var maxLength = 28;
@@ -926,7 +928,7 @@ FocusScope {
                         }
 
                         font.family: fontLoader.name
-                        font.pixelSize: 32
+                        font.pixelSize: 27
                         fontSizeMode: Text.Fit
                         minimumPixelSize: 10
                         color: "yellow"
@@ -1108,7 +1110,7 @@ FocusScope {
             ListView {
                 id: favoriteListView
                 width: parent.width
-                height: parent.height * 0.95
+                height: parent.height * 0.90
                 model: favoritesProxyModel
                 
                 delegate: Item {
@@ -1128,7 +1130,7 @@ FocusScope {
                         anchors.centerIn: parent
                         text: favoriteListView.currentIndex === index ? "🎔 " + shortenedTitle : shortenedTitle
                         font.family: fontLoader.name
-                        font.pixelSize: 32
+                        font.pixelSize: 27
                         fontSizeMode: Text.Fit
                         minimumPixelSize: 10
                         color: "yellow"
@@ -1651,25 +1653,26 @@ FocusScope {
 
     Rectangle {
         id: rect5
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: parent.height * 0.07
-        width: parent.width * 0.80
+        anchors.bottomMargin: 27
+        height: parent.height * 0.20
+        width: parent.width * 0.14
         color: "transparent"
 
         Item {
             anchors.fill: parent
 
-            Row {
-                anchors.centerIn: parent
-
+            Column {
+                //anchors.centerIn: parent
+                anchors.bottom: parent.bottom
                 Text {
                     id: okText
                     text: "🅐 SELECT"
                     color: "#fff900"
                     font.family: fontLoader.name
                     font.bold: true
-                    font.pixelSize: 28
+                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
                     layer.enabled: true
                     layer.effect: DropShadow {
                         radius: 5
@@ -1682,11 +1685,11 @@ FocusScope {
 
                 Text {
                     id: backText
-                    text: " 🅑 BACK"
+                    text: "🅑 BACK"
                     color: "#fff900"
                     font.family: fontLoader.name
                     font.bold: true
-                    font.pixelSize: 28
+                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
                     visible: !mainMenuVisible
                     layer.enabled: true
                     layer.effect: DropShadow {
@@ -1700,11 +1703,11 @@ FocusScope {
 
                 Text {
                     id: favText
-                    text: " 🅧 FAVORITE"
+                    text: "🅧 FAVORITE "
                     color: "#fff900"
                     font.family: fontLoader.name
                     font.bold: true
-                    font.pixelSize: 28
+                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
                     visible: !mainMenuVisible
                     layer.enabled: true
                     layer.effect: DropShadow {
