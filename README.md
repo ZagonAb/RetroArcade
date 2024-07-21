@@ -27,18 +27,11 @@ RetroArcade tema para pegasus frontend.
 
 # Capturas
 
-![1](https://github.com/user-attachments/assets/3bcbcd69-9473-4748-9718-81e2880370a8)
-![2](https://github.com/user-attachments/assets/fba7e02b-aefc-4057-8370-86ad1e496992)
-![3](https://github.com/user-attachments/assets/1babc31e-091e-4ec8-8667-c2da6b8cca90)
-![4](https://github.com/user-attachments/assets/1f7498b1-5de1-4227-9f4c-05ec62fbef8d)
-![7](https://github.com/user-attachments/assets/a2332ad1-8fa2-4478-b75e-75aeb2625a3f)
-![5](https://github.com/user-attachments/assets/15534266-e2fe-4af8-a5db-60916c7f31b8)
-![6](https://github.com/user-attachments/assets/abab9b4d-0288-4453-bb66-cf3478af7b91)
-![8](https://github.com/user-attachments/assets/5ef28d9a-8c18-4439-a43d-583daf20c67e)
-![9](https://github.com/user-attachments/assets/86a90ea1-2fbd-4c9f-9faf-ab5255f5fe18)
-
-
-
+![1](https://github.com/user-attachments/assets/fcd2bc31-90e6-41d1-8930-f3017092f858)
+![2](https://github.com/user-attachments/assets/862133f2-3021-495a-abaf-73cb0caf493b)
+![3](https://github.com/user-attachments/assets/3377f326-5c23-4035-85b9-6fee43f2b8a8)
+![4](https://github.com/user-attachments/assets/62b185ed-7d0b-481b-a5f1-24d2bd786c63)
+![5](https://github.com/user-attachments/assets/7795326a-a054-4366-b03f-a2b694249381)
 
   
 # Aceptación de Sugerencias:
