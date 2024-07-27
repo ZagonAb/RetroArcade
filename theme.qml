@@ -1326,6 +1326,7 @@ FocusScope {
         }
     }
 
+
     Rectangle {
         id: searchGamesConteiner
         anchors.centerIn: parent
@@ -1491,7 +1492,7 @@ FocusScope {
                     onFocusChanged: {
                         if (searchResulView.focus) {
                             searchResulView.currentIndex = 0;
-                            updateGameInfo();
+                            updateGameInfo4();
                         }
                     }
 
@@ -1843,7 +1844,7 @@ FocusScope {
 
                     Text {
                         id: okText1
-                        text: " Background"
+                        text: " OVERLAY"
                         color: "#fff900"
                         font.family: fontLoader.name
                         font.bold: true
@@ -1873,7 +1874,7 @@ FocusScope {
 
                     Text {
                         id: backText1
-                        text: " Overlay"
+                        text: " BACKGROUND"
                         color: "#fff900"
                         font.family: fontLoader.name
                         font.bold: true
