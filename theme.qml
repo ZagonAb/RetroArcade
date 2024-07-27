@@ -11,13 +11,18 @@ FocusScope {
     property bool allgamesVisible: false
     property bool recentgamesVisible: false
     property bool mainMenuVisible: true
+    property bool favoritegamesVisible: false
     property bool allgamesFocused: false
     property bool recentgamesFocused: false
-    property bool favoritegamesVisible: false
     property bool favoritegamesFocused: false
     property bool keyboardRetroVisible: false
     property bool keyboardRetroFocused: false
     property bool searchResulFocused: false
+    property int currentBackgroundIndex: 0
+    property int maxBackgroundIndex: 3
+    property int currentOverlayIndex: 0
+    property int maxOverlayIndex: 3
+
 
     Timer {
         id: launchTimer
@@ -96,6 +101,12 @@ FocusScope {
         autoPlay: true
         volume: 0.30
     }
+
+    SoundEffect {
+        id: changeGifSound
+        source: "assets/sounds/ChangeGif.wav"
+        volume: 1.50
+    }
       
     SoundEffect {
         id: shiftSound
@@ -131,13 +142,35 @@ FocusScope {
         source: "assets/font/ARCADE2.TTF"
     }
 
+    function updateBackground() {
+        gifBackground.source = "assets/background/background" + currentBackgroundIndex + ".gif"
+    }
+
+    function updateOverlay() {
+        overlayImage.source = "assets/overlay/overlay" + currentOverlayIndex + ".png"
+    }
+
     AnimatedImage {
         id: gifBackground
-        source: "assets/background/background.gif"
-        width: parent.width * 0.68
+        source: "assets/background/background0.gif"
+        width: parent.width * 0.90
         height: parent.height * 0.90
         anchors.centerIn: parent
         playing: true
+    }
+
+    LinearGradient {
+        id: screenshotGrad
+        width: root.width
+        height: parent.height
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        start: Qt.point(0, height)
+        end: Qt.point(0, 0)
+        gradient: Gradient {
+            GradientStop { position: 1.0; color: "#FF000000" }
+            GradientStop { position: 0.5; color: "#00000000" }
+        }
     }
 
     Item{
@@ -215,9 +248,10 @@ FocusScope {
     }
 
     Rectangle {
+        id: mainMenuRectangle
         anchors.fill: parent
         color: "transparent"
-        
+                
         GridLayout {
             id: gridLayout
             columns: 2
@@ -225,8 +259,8 @@ FocusScope {
             columnSpacing: 20
             anchors.centerIn: parent
             anchors.verticalCenterOffset: 55
-            width: parent.width * 0.6
-            height: parent.height * 0.6
+            width: parent.width * 0.45
+            height: parent.height * 0.45
             anchors.margins: 20
 
             visible: mainMenuVisible
@@ -261,7 +295,7 @@ FocusScope {
                         wrapMode: Text.WordWrap
                         fontSizeMode: Text.Fit
                         property real minFontSize: 10
-                        property real maxFontSize: 45
+                        property real maxFontSize: 55
 
                         function adjustFontSize() {
                             var containerSize = Math.min(rect1.width, rect1.height);
@@ -341,7 +375,7 @@ FocusScope {
                         wrapMode: Text.WordWrap
                         fontSizeMode: Text.Fit
                         property real minFontSize: 10
-                        property real maxFontSize: 50
+                        property real maxFontSize: 55
 
                         function adjustFontSize() {
                             var containerSize = Math.min(rect2.width, rect2.height);
@@ -619,10 +653,10 @@ FocusScope {
         }
     }
 
+
     function updateGameInfo() {
         var game = api.allGames.get(gameListView.currentIndex);
         if (game) {
-            // Obtener y formatear la información del juego
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
@@ -685,7 +719,7 @@ FocusScope {
                 clip: true
                 delegate: Item {
                     width: gameListView.width
-                    height: gameListView.height * 0.08
+                    height: gameListView.height * 0.09
                     property string shortenedTitle: {
                         var maxLength = 26;
                         if (modelData.title.length > maxLength) {
@@ -712,9 +746,7 @@ FocusScope {
                             }
                         }
                         font.family: fontLoader.name
-                        font.pixelSize: 27
-                        fontSizeMode: Text.Fit
-                        minimumPixelSize: 10
+                        font.pixelSize: Math.min(allGameslistview.height / 25, allGameslistview.width / 2)
                         color: "yellow"
                         elide: Text.ElideMiddle
                     }
@@ -733,6 +765,12 @@ FocusScope {
 
                 focus: allgamesFocused
 
+                onFocusChanged: {
+                    if (gameListView.focus) {
+                        gameListView.currentIndex = 0;
+                        updateGameInfo();
+                    }
+                }
 
 
                 Keys.onUpPressed: {
@@ -870,7 +908,9 @@ FocusScope {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10 
             font.family: fontLoader.name
-            font.pixelSize: 32;
+            //font.pixelSize: 32;
+            font.pixelSize: Math.min(recentGamesConteiner.height / 25, recentGamesConteiner.width / 2)
+
             color: "#fe31f9"
             layer.enabled: true
             layer.effect: DropShadow {
@@ -928,9 +968,7 @@ FocusScope {
                         }
 
                         font.family: fontLoader.name
-                        font.pixelSize: 27
-                        fontSizeMode: Text.Fit
-                        minimumPixelSize: 10
+                        font.pixelSize: Math.min(recentGameslistview.height / 25, recentGameslistview.width / 2)
                         color: "yellow"
                         elide: Text.ElideMiddle
                     }
@@ -947,6 +985,14 @@ FocusScope {
                 }
 
                 focus: recentgamesFocused
+
+                onFocusChanged: {
+                    if (recentListView.focus) {
+                        recentListView.currentIndex = 0;
+                        updateGameInfo2();
+                    }
+                }
+
                 Keys.onUpPressed: {
                     if (currentIndex > 0) {
                         currentIndex--
@@ -1130,9 +1176,7 @@ FocusScope {
                         anchors.centerIn: parent
                         text: favoriteListView.currentIndex === index ? "🎔 " + shortenedTitle : shortenedTitle
                         font.family: fontLoader.name
-                        font.pixelSize: 27
-                        fontSizeMode: Text.Fit
-                        minimumPixelSize: 10
+                        font.pixelSize: Math.min(favoriteGameslistview.height / 25, favoriteGameslistview.width / 2)
                         color: "yellow"
                         elide: Text.ElideMiddle
                     }
@@ -1149,6 +1193,15 @@ FocusScope {
                 }
             
                 focus: favoritegamesFocused
+
+                onFocusChanged: {
+                    if (favoriteListView.focus) {
+                        favoriteListView.currentIndex = 0;
+                        updateGameInfo3();
+                    }
+                }
+
+
                 Keys.onUpPressed: {
                     if (currentIndex > 0) {
                         currentIndex--
@@ -1418,9 +1471,7 @@ FocusScope {
                             }
 
                             font.family: fontLoader.name
-                            font.pixelSize: 27
-                            fontSizeMode: Text.Fit
-                            minimumPixelSize: 10
+                            font.pixelSize: Math.min(searchResul.height / 12, searchResul.width / 4)
                             color: "yellow"
                             elide: Text.ElideMiddle
                         }
@@ -1437,6 +1488,13 @@ FocusScope {
                     }
 
                     focus: searchResulFocused
+                    onFocusChanged: {
+                        if (searchResulView.focus) {
+                            searchResulView.currentIndex = 0;
+                            updateGameInfo();
+                        }
+                    }
+
                     Keys.onUpPressed: {
                         if (currentIndex > 0) {
                             currentIndex--
@@ -1519,7 +1577,7 @@ FocusScope {
             Rectangle {
                 id: keyboardRetro
                 height: parent.height * 0.30 
-                width: parent.width * 0.80
+                width: parent.width * 0.70
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: "black"
                 border.color: "blue"
@@ -1529,6 +1587,13 @@ FocusScope {
                 property int currentIndex: 0
 
                 focus: keyboardRetroFocused
+
+                onFocusChanged: {
+                    if (keyboardRetro.focus) {
+                        keyboardRetro.currentIndex = 0;
+                        updateGameInfo4();
+                    }
+                }
 
                 Keys.onPressed: {
                     if (!event.isAutoRepeat && api.keys.isAccept(event)) {
@@ -1554,7 +1619,7 @@ FocusScope {
                     } else if (event.key === Qt.Key_Up) {
                         if (currentIndex >= 0 && currentIndex <= 12) {
                             shiftSound.play();
-                            keyboardRetroFocused = false
+                            keyboardRetroFocused = false;
                             searchResulFocused = true;
                         } else {
                             currentIndex = (currentIndex - 13 + 38) % 38;
@@ -1564,12 +1629,15 @@ FocusScope {
                         currentIndex = (currentIndex + 13) % 38;
                         shiftSound.play();
                     } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
-                            event.accepted = true;
-                            selectSound.play();
-                            keyboardRetroVisible = false
-                            keyboardRetroFocused = false
-                            mainMenuVisible = true;
-                            rect2.forceActiveFocus();
+                        event.accepted = true;
+                        selectSound.play();
+                        searchInput.text = "";
+                        searchResulView.currentIndex = -1;
+
+                        keyboardRetroVisible = false;
+                        keyboardRetroFocused = false;
+                        mainMenuVisible = true;
+                        rect2.forceActiveFocus();
                     }
                 }
 
@@ -1578,7 +1646,7 @@ FocusScope {
                     anchors.centerIn: parent
                     columns: 13
                     rows: 3
-                    spacing: 10
+                    spacing: 5
 
                     Repeater {
                         model: ["A","B","C","D","E","F","G","H","I","J","K","L","M",
@@ -1587,11 +1655,11 @@ FocusScope {
 
                         delegate: Text {
                             id: lettersNumbers
-                            anchors.leftMargin: 65
-                            anchors.rightMargin: 65
+                            anchors.leftMargin: 50
+                            anchors.rightMargin: 50
                             text: modelData
                             font.family: fontLoader.name
-                            font.pixelSize: Math.min(keyboardRetro.height / 4, keyboardRetro.width / 5)
+                            font.pixelSize: Math.min(keyboardRetro.height / 5, keyboardRetro.width / 2)
                             color: (index === keyboardRetro.currentIndex && keyboardRetroFocused) ? "#fe26d8" : "#fff900"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -1647,8 +1715,30 @@ FocusScope {
 
     Image {
         id: overlayImage
-        source: "assets/overlays/overlay0.png"
+        source: "assets/overlay/overlay0.png"
         anchors.fill: parent
+    }
+
+    Keys.onReleased: (event) => {
+        if (api.keys.isNextPage(event)) {
+            if (currentBackgroundIndex < maxBackgroundIndex) {
+                currentBackgroundIndex++;
+            } else {
+                currentBackgroundIndex = 0;
+            }
+            updateBackground();
+            api.memory.set('lastBackgroundIndex', currentBackgroundIndex);
+            changeGifSound.play();
+        } else if (api.keys.isPrevPage(event)) {
+            if (currentOverlayIndex < maxOverlayIndex) {
+                currentOverlayIndex++;
+            } else {
+                currentOverlayIndex = 0;
+            }
+            updateOverlay();
+            api.memory.set('lastOverlayIndex', currentOverlayIndex);
+            changeGifSound.play();
+        }
     }
 
     Rectangle {
@@ -1722,5 +1812,91 @@ FocusScope {
         }
     }
 
-    Component.onCompleted: rect1.forceActiveFocus()
+    Rectangle {
+        id: rect6
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 27
+        anchors.leftMargin: 7
+        height: parent.height * 0.20
+        width: parent.width * 0.14
+        color: "transparent"
+
+        Item {
+            anchors.fill: parent
+
+            Column {
+                anchors.bottom: parent.bottom
+                spacing: 10
+
+                Row {
+                    spacing: 5
+
+                    Image {
+                        id: icon1
+                        source: "assets/LB&RB/left.png"
+                        width: okText1.font.pixelSize * 2.00
+                        height: okText1.font.pixelSize * 1.0
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: 10
+                    }
+
+                    Text {
+                        id: okText1
+                        text: " Background"
+                        color: "#fff900"
+                        font.family: fontLoader.name
+                        font.bold: true
+                        font.pixelSize: Math.min(rect6.width * 0.07, rect6.height * 0.2)
+                        layer.enabled: true
+                        layer.effect: DropShadow {
+                            radius: 5
+                            samples: 40
+                            color: "#f21f25"
+                            horizontalOffset: -4
+                            verticalOffset: 4
+                        }
+                    }
+                }
+
+                Row {
+                    spacing: 5
+
+                    Image {
+                        id: icon2
+                        source: "assets/LB&RB/right.png"
+                        width: okText1.font.pixelSize * 2.00
+                        height: okText1.font.pixelSize * 1.0
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: 10 
+                    }
+
+                    Text {
+                        id: backText1
+                        text: " Overlay"
+                        color: "#fff900"
+                        font.family: fontLoader.name
+                        font.bold: true
+                        font.pixelSize: Math.min(rect6.width * 0.07, rect6.height * 0.2)
+                        layer.enabled: true
+                        layer.effect: DropShadow {
+                            radius: 5
+                            samples: 40
+                            color: "#f21f25"
+                            horizontalOffset: -4
+                            verticalOffset: 4
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        currentBackgroundIndex = api.memory.get('lastBackgroundIndex') || 0;
+        currentOverlayIndex = api.memory.get('lastOverlayIndex') || 0;
+        updateBackground();
+        updateOverlay();
+        rect1.forceActiveFocus();
+    }
 }
