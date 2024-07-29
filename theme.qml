@@ -19,7 +19,7 @@ FocusScope {
     property bool keyboardRetroFocused: false
     property bool searchResulFocused: false
     property int currentBackgroundIndex: 0
-    property int maxBackgroundIndex: 3
+    property int maxBackgroundIndex: 8
     property int currentOverlayIndex: 0
     property int maxOverlayIndex: 3
 
@@ -269,9 +269,9 @@ FocusScope {
                 id: rect1
                 Layout.preferredWidth: parent.width / 2 - gridLayout.columnSpacing / 2 
                 Layout.preferredHeight: parent.height / 2 - gridLayout.rowSpacing / 2 
-
                 color: "black"
                 border.color: "blue"
+                opacity: 0.8
                 border.width: 5
                 radius: 20
                 clip: true
@@ -353,6 +353,7 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
+                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -433,6 +434,7 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
+                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -514,6 +516,7 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
+                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -653,53 +656,82 @@ FocusScope {
         }
     }
 
-
     function updateGameInfo() {
         var game = api.allGames.get(gameListView.currentIndex);
         if (game) {
+            // Obtener y formatear las colecciones
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
 
+            // Obtener y formatear la fecha de lanzamiento
             var releaseDate = game.release ? game.release.toLocaleDateString(Qt.locale("en_US"), "yyyy") : "N/A";
+            
+            // Obtener la cantidad de jugadores y el desarrollador
             var players = game.players || "1";
             var developer = game.developer || "Unknown";
 
+            // Asignar información a los elementos de texto correspondientes
             gameInfoText1.text = "Collection: " + collections;
             gameInfoText2.text = "Developer: " + developer + " | Release: " + releaseDate + " | Players: " + players;
         } else {
             gameInfoText1.text = "";
             gameInfoText2.text = "";
         }
+
+        // Obtener y mostrar la cantidad total de juegos en api.allGames
+        var gamesCount = api.allGames.count;
+        gameInfoText22.text = gamesCount + " \uD83C\uDFAE";
     }
 
     Rectangle {
         id: allGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.86
+        height: parent.height * 0.89
         radius: 160
         color: "transparent"
         clip: true
         visible: allgamesVisible
 
-        Text{
-            id:allGamesTitle
-            text: "ALL GAMES"
+        Row {
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10 
-            font.family: fontLoader.name
-            font.pixelSize: 32;
-            color: "#fe31f9"
-            layer.enabled: true
-            layer.effect: DropShadow {
-                radius: 20
-                samples: 20
-                color: "#f21f25"
-                horizontalOffset: -2
-                verticalOffset: 5
-                spread: 0.35
+            spacing: 20
+
+            Text {
+                id: allGamesTitle
+                text: "ALL GAMES"
+                font.family: fontLoader.name
+                font.pixelSize: 32
+                color: "#fe31f9"
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#f21f25"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
+                }
+            }
+
+            Text {
+                id: gameInfoText22
+                font.family: fontLoader.name
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 18
+                color: "yellow"
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "yellow"//"#f21f25"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
+                }
             }
         }
         
@@ -819,60 +851,55 @@ FocusScope {
             }
         }
 
-        Rectangle {
+
+        Column {
             id: infoGames
             height: parent.height * 0.10
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: allGamesConteiner.bottom 
-            anchors.topMargin: 5 
-            color: "transparent"
+            anchors.bottom: allGamesConteiner.bottom
+            anchors.bottomMargin: -10 
 
-            Column {
-                anchors.centerIn: parent
-
-                Text {
-                    id: gameInfoText1
-                    color: "white"
-                    font.pixelSize: infoGames.height * 0.35
-                    font.family: fontLoader2.name
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    minimumPixelSize: 15
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        radius: 20
-                        samples: 20
-                        color: "#fe31f9"
-                        horizontalOffset: -2
-                        verticalOffset: 5
-                        spread: 0.35
-                    }
+            Text {
+                id: gameInfoText1
+                color: "white"
+                font.pixelSize: infoGames.height * 0.35
+                font.family: fontLoader2.name
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                minimumPixelSize: 15
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#fe31f9"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
                 }
+            }
 
-                Text {
-                    id: gameInfoText2
-                    color: "white"
-                    font.pixelSize: infoGames.height * 0.35
-                    font.family: fontLoader2.name
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    minimumPixelSize: 15
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        radius: 20
-                        samples: 20
-                        color: "#fe31f9"
-                        horizontalOffset: -2
-                        verticalOffset: 5
-                        spread: 0.35
-                    }
+            Text {
+                id: gameInfoText2
+                color: "white"
+                font.pixelSize: infoGames.height * 0.35
+                font.family: fontLoader2.name
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                minimumPixelSize: 15
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#fe31f9"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
                 }
             }
         }
@@ -884,10 +911,17 @@ FocusScope {
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
-
+            
             gameInfoText3.text = "Collection: " + collections;
+            var totalSeconds = game.playTime || 0;
+            var hours = Math.floor(totalSeconds / 3600);
+            var minutes = Math.floor((totalSeconds % 3600) / 60);
+            var seconds = totalSeconds % 60;
+            var playTimeFormatted = hours + "h " + minutes + "m " + seconds + "s";
+            gameInfoText33.text = "Time played: " + playTimeFormatted;
         } else {
             gameInfoText3.text = "";
+            gameInfoText33.text = "";
         }
     }
 
@@ -895,7 +929,7 @@ FocusScope {
         id: recentGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.86
+        height: parent.height * 0.89
         radius: 160
         color: "transparent"
         clip: true
@@ -908,7 +942,6 @@ FocusScope {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10 
             font.family: fontLoader.name
-            //font.pixelSize: 32;
             font.pixelSize: Math.min(recentGamesConteiner.height / 25, recentGamesConteiner.width / 2)
 
             color: "#fe31f9"
@@ -1065,38 +1098,54 @@ FocusScope {
             }
         }
 
-        Rectangle {
+        Column {
             id: infoGames2
             height: parent.height * 0.10
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: recentGamesConteiner.bottom 
-            anchors.topMargin: 5 
-            color: "transparent"
+            anchors.bottom: recentGamesConteiner.bottom
+            anchors.bottomMargin: -15 
 
-            Column {
-                anchors.centerIn: parent
+            Text {
+                id: gameInfoText3
+                color: "white"
+                font.pixelSize: infoGames.height * 0.40
+                font.family: fontLoader2.name
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                minimumPixelSize: 15
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#fe31f9"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
+                }
+            }
 
-                Text {
-                    id: gameInfoText3
-                    color: "white"
-                    font.pixelSize: infoGames2.height * 0.40
-                    font.family: fontLoader2.name
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    minimumPixelSize: 15
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        radius: 20
-                        samples: 20
-                        color: "#fe31f9"
-                        horizontalOffset: -2
-                        verticalOffset: 5
-                        spread: 0.35
-                    }
+            Text {
+                id: gameInfoText33
+                color: "white"
+                font.pixelSize: infoGames.height * 0.35
+                font.family: fontLoader2.name
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                minimumPixelSize: 15
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#fe31f9"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
                 }
             }
         }
@@ -1119,7 +1168,7 @@ FocusScope {
         id: favoriteGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.86
+        height: parent.height * 0.89
         radius: 160
         color: "transparent"
         clip: true
@@ -1275,39 +1324,33 @@ FocusScope {
             }
         }
 
-        Rectangle {
+        Item {
             id: infoGames3
             height: parent.height * 0.10
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: favoriteGamesConteiner.bottom 
-            anchors.topMargin: 5
-            color: "transparent"
+            anchors.bottom: favoriteGamesConteiner.bottom
+            anchors.bottomMargin: -30 
 
-            Column {
-                anchors.centerIn: parent
-
-                Text {
-                    id: gameInfoText4
-                    color: "white"
-                    visible: favoritesProxyModel.count > 0 
-                    font.pixelSize: infoGames3.height * 0.40
-                    font.family: fontLoader2.name
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    minimumPixelSize: 15
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        radius: 20
-                        samples: 20
-                        color: "#fe31f9"
-                        horizontalOffset: -2
-                        verticalOffset: 5
-                        spread: 0.35
-                    }
+            Text {
+                id: gameInfoText4
+                color: "white"
+                visible: favoritesProxyModel.count > 0 
+                font.pixelSize: infoGames3.height * 0.40
+                font.family: fontLoader2.name
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                minimumPixelSize: 15
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    radius: 20
+                    samples: 20
+                    color: "#fe31f9"
+                    horizontalOffset: -2
+                    verticalOffset: 5
+                    spread: 0.35
                 }
             }
         }
@@ -1331,7 +1374,7 @@ FocusScope {
         id: searchGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.80
-        height: parent.height * 0.85
+        height: parent.height * 0.89
         visible: keyboardRetroVisible
         color: "transparent" 
         clip: true
@@ -1583,6 +1626,7 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
+                opacity: 0.8
                 radius: 40
                 
                 property int currentIndex: 0
@@ -1673,21 +1717,18 @@ FocusScope {
                                 verticalOffset: 4
                             }
                         }
-
                     }
                 }
             }
         }
 
-        Rectangle {
+        Item {
             id: infoGames4
             height: parent.height * 0.05
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: searchGamesConteiner.bottom 
-            anchors.topMargin: 5 
-            visible: searchResulFocused
-            color: "transparent"
+            anchors.bottom: searchGamesConteiner.bottom
+            anchors.bottomMargin: -5
+            visible: searchResulFocused      
 
             Text {
                 id: gameInfoText5
