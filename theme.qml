@@ -19,10 +19,9 @@ FocusScope {
     property bool keyboardRetroFocused: false
     property bool searchResulFocused: false
     property int currentBackgroundIndex: 0
-    property int maxBackgroundIndex: 8
+    property int maxBackgroundIndex: 3
     property int currentOverlayIndex: 0
     property int maxOverlayIndex: 3
-
 
     Timer {
         id: launchTimer
@@ -269,9 +268,9 @@ FocusScope {
                 id: rect1
                 Layout.preferredWidth: parent.width / 2 - gridLayout.columnSpacing / 2 
                 Layout.preferredHeight: parent.height / 2 - gridLayout.rowSpacing / 2 
+
                 color: "black"
                 border.color: "blue"
-                opacity: 0.8
                 border.width: 5
                 radius: 20
                 clip: true
@@ -353,7 +352,6 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
-                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -434,7 +432,6 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
-                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -516,7 +513,6 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
-                opacity: 0.8
                 radius: 20
                 clip: true
 
@@ -659,19 +655,16 @@ FocusScope {
     function updateGameInfo() {
         var game = api.allGames.get(gameListView.currentIndex);
         if (game) {
-            // Obtener y formatear las colecciones
+
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
 
-            // Obtener y formatear la fecha de lanzamiento
             var releaseDate = game.release ? game.release.toLocaleDateString(Qt.locale("en_US"), "yyyy") : "N/A";
             
-            // Obtener la cantidad de jugadores y el desarrollador
             var players = game.players || "1";
             var developer = game.developer || "Unknown";
 
-            // Asignar información a los elementos de texto correspondientes
             gameInfoText1.text = "Collection: " + collections;
             gameInfoText2.text = "Developer: " + developer + " | Release: " + releaseDate + " | Players: " + players;
         } else {
@@ -679,16 +672,15 @@ FocusScope {
             gameInfoText2.text = "";
         }
 
-        // Obtener y mostrar la cantidad total de juegos en api.allGames
         var gamesCount = api.allGames.count;
-        gameInfoText22.text = gamesCount + " \uD83C\uDFAE";
+        gameInfoText22.text = "" + gamesCount;
     }
 
     Rectangle {
         id: allGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.89
+        height: parent.height * 0.86
         radius: 160
         color: "transparent"
         clip: true
@@ -727,14 +719,14 @@ FocusScope {
                 layer.effect: DropShadow {
                     radius: 20
                     samples: 20
-                    color: "yellow"//"#f21f25"
+                    color: "yellow"
                     horizontalOffset: -2
                     verticalOffset: 5
                     spread: 0.35
                 }
             }
         }
-        
+
         Rectangle {
             id: allGameslistview
             anchors.centerIn: parent
@@ -743,12 +735,14 @@ FocusScope {
             color: "transparent"
             clip: true
 
+
             ListView {
                 id: gameListView
                 width: parent.width
                 height: parent.height * 0.95
                 model: api.allGames
                 clip: true
+
                 delegate: Item {
                     width: gameListView.width
                     height: gameListView.height * 0.09
@@ -761,37 +755,49 @@ FocusScope {
                         }
                     }
                     
-                    Text {
-                        id: titleText
+                    Rectangle {
                         anchors.fill: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        text: {
-                            if (modelData.favorite && gameListView.currentIndex === index) {
-                                return "🎔 " + shortenedTitle;
-                            } else if (modelData.favorite) {
-                                return "" + shortenedTitle;
-                            } else if (gameListView.currentIndex === index) {
-                                return "\u2B95 " + shortenedTitle;
-                            } else {
-                                return shortenedTitle;
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "transparent"
+                        
+                        Row {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            spacing: 10
+                            
+                            Image {
+                                id: icon
+                                width: titleText.height
+                                height: titleText.height
+                                source: {
+                                    if (modelData.favorite && gameListView.currentIndex === index) {
+                                        return "assets/icons/favorite.ico";
+                                    } else if (gameListView.currentIndex === index) {
+                                        return "assets/icons/games.ico";
+                                    } else {
+                                        return "";
+                                    }
+                                }
+                                visible: source !== ""
+                            }
+
+                            Text {
+                                id: titleText
+                                text: shortenedTitle
+                                font.family: fontLoader.name
+                                font.pixelSize: Math.min(allGameslistview.height / 20, allGameslistview.width / 20)
+                                color: "yellow"
+                                elide: Text.ElideMiddle
+                                verticalAlignment: Text.AlignVCenter
+                                layer.enabled: true
+                                layer.effect: DropShadow {
+                                    radius: 5
+                                    samples: 40
+                                    color: "#f21f25"
+                                    horizontalOffset: -4
+                                    verticalOffset: 4
+                                }
                             }
                         }
-                        font.family: fontLoader.name
-                        font.pixelSize: Math.min(allGameslistview.height / 25, allGameslistview.width / 2)
-                        color: "yellow"
-                        elide: Text.ElideMiddle
-                    }
-        
-    
-                    DropShadow {
-                        anchors.fill: titleText
-                        source: titleText
-                        radius: 5
-                        samples: 40
-                        color: "#f21f25"
-                        horizontalOffset: -4
-                        verticalOffset: 4
                     }
                 }
 
@@ -851,55 +857,60 @@ FocusScope {
             }
         }
 
-
-        Column {
+        Rectangle {
             id: infoGames
             height: parent.height * 0.10
             width: parent.width
-            anchors.bottom: allGamesConteiner.bottom
-            anchors.bottomMargin: -10 
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: allGamesConteiner.bottom 
+            anchors.topMargin: 5 
+            color: "transparent"
 
-            Text {
-                id: gameInfoText1
-                color: "white"
-                font.pixelSize: infoGames.height * 0.35
-                font.family: fontLoader2.name
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                minimumPixelSize: 15
-                layer.enabled: true
-                layer.effect: DropShadow {
-                    radius: 20
-                    samples: 20
-                    color: "#fe31f9"
-                    horizontalOffset: -2
-                    verticalOffset: 5
-                    spread: 0.35
+            Column {
+                anchors.centerIn: parent
+
+                Text {
+                    id: gameInfoText1
+                    color: "white"
+                    font.pixelSize: infoGames.height * 0.35
+                    font.family: fontLoader2.name
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    minimumPixelSize: 15
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 20
+                        samples: 20
+                        color: "#fe31f9"
+                        horizontalOffset: -2
+                        verticalOffset: 5
+                        spread: 0.35
+                    }
                 }
-            }
 
-            Text {
-                id: gameInfoText2
-                color: "white"
-                font.pixelSize: infoGames.height * 0.35
-                font.family: fontLoader2.name
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                minimumPixelSize: 15
-                layer.enabled: true
-                layer.effect: DropShadow {
-                    radius: 20
-                    samples: 20
-                    color: "#fe31f9"
-                    horizontalOffset: -2
-                    verticalOffset: 5
-                    spread: 0.35
+                Text {
+                    id: gameInfoText2
+                    color: "white"
+                    font.pixelSize: infoGames.height * 0.35
+                    font.family: fontLoader2.name
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    minimumPixelSize: 15
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 20
+                        samples: 20
+                        color: "#fe31f9"
+                        horizontalOffset: -2
+                        verticalOffset: 5
+                        spread: 0.35
+                    }
                 }
             }
         }
@@ -908,16 +919,19 @@ FocusScope {
     function updateGameInfo2() {
         var game = continuePlayingProxyModel.get(recentListView.currentIndex);
         if (game) {
+
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
             
             gameInfoText3.text = "Collection: " + collections;
+            
             var totalSeconds = game.playTime || 0;
             var hours = Math.floor(totalSeconds / 3600);
             var minutes = Math.floor((totalSeconds % 3600) / 60);
             var seconds = totalSeconds % 60;
             var playTimeFormatted = hours + "h " + minutes + "m " + seconds + "s";
+
             gameInfoText33.text = "Time played: " + playTimeFormatted;
         } else {
             gameInfoText3.text = "";
@@ -929,7 +943,7 @@ FocusScope {
         id: recentGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.89
+        height: parent.height * 0.90
         radius: 160
         color: "transparent"
         clip: true
@@ -942,6 +956,7 @@ FocusScope {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10 
             font.family: fontLoader.name
+            //font.pixelSize: 32;
             font.pixelSize: Math.min(recentGamesConteiner.height / 25, recentGamesConteiner.width / 2)
 
             color: "#fe31f9"
@@ -970,14 +985,12 @@ FocusScope {
                 height: parent.height * 0.95
                 model: continuePlayingProxyModel
                 clip: true
-                
-                delegate: Item {
 
+                delegate: Item {
                     width: recentListView.width
                     height: recentListView.height * 0.08
-
                     property string shortenedTitle: {
-                        var maxLength = 28;
+                        var maxLength = 26;
                         if (modelData.title.length > maxLength) {
                             return modelData.title.substring(0, maxLength - 5) + "...";
                         } else {
@@ -985,35 +998,49 @@ FocusScope {
                         }
                     }
                     
-                    Text {
-                        id: titleText1
-                        anchors.centerIn: parent
-                        text: {
-                            if (modelData.favorite && recentListView.currentIndex === index) {
-                                return "🎔 " + shortenedTitle;
-                            } else if (modelData.favorite) {
-                                return "" + shortenedTitle;
-                            } else if (recentListView.currentIndex === index) {
-                                return "\u23EF " + shortenedTitle;
-                            } else {
-                                return shortenedTitle;
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "transparent"
+                        
+                        Row {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            spacing: 10
+                            
+                            Image {
+                                id: icon
+                                width: titleText1.height
+                                height: titleText1.height
+                                source: {
+                                    if (modelData.favorite && recentListView.currentIndex === index) {
+                                        return "assets/icons/favorite.ico";
+                                    } else if (recentListView.currentIndex === index) {
+                                        return "assets/icons/continue.ico";
+                                    } else {
+                                        return "";
+                                    }
+                                }
+                                visible: source !== ""
+                            }
+
+                            Text {
+                                id: titleText1
+                                text: shortenedTitle
+                                font.family: fontLoader.name
+                                font.pixelSize: Math.min(recentListView.height / 20, recentListView.width / 20)
+                                color: "yellow"
+                                elide: Text.ElideMiddle
+                                verticalAlignment: Text.AlignVCenter
+                                layer.enabled: true
+                                layer.effect: DropShadow {
+                                    radius: 5
+                                    samples: 40
+                                    color: "#f21f25"
+                                    horizontalOffset: -4
+                                    verticalOffset: 4
+                                }
                             }
                         }
-
-                        font.family: fontLoader.name
-                        font.pixelSize: Math.min(recentGameslistview.height / 25, recentGameslistview.width / 2)
-                        color: "yellow"
-                        elide: Text.ElideMiddle
-                    }
-
-                    DropShadow {
-                        anchors.fill: titleText1
-                        source: titleText1
-                        radius: 5
-                        samples: 40
-                        color: "#f21f25"
-                        horizontalOffset: -4
-                        verticalOffset: 4
                     }
                 }
 
@@ -1098,54 +1125,60 @@ FocusScope {
             }
         }
 
-        Column {
+        Rectangle {
             id: infoGames2
             height: parent.height * 0.10
             width: parent.width
-            anchors.bottom: recentGamesConteiner.bottom
-            anchors.bottomMargin: -15 
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: recentGamesConteiner.bottom 
+            anchors.topMargin: 5 
+            color: "transparent"
 
-            Text {
-                id: gameInfoText3
-                color: "white"
-                font.pixelSize: infoGames.height * 0.40
-                font.family: fontLoader2.name
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                minimumPixelSize: 15
-                layer.enabled: true
-                layer.effect: DropShadow {
-                    radius: 20
-                    samples: 20
-                    color: "#fe31f9"
-                    horizontalOffset: -2
-                    verticalOffset: 5
-                    spread: 0.35
+            Column {
+                anchors.centerIn: parent
+
+                Text {
+                    id: gameInfoText3
+                    color: "white"
+                    font.pixelSize: infoGames.height * 0.40
+                    font.family: fontLoader2.name
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    minimumPixelSize: 15
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 20
+                        samples: 20
+                        color: "#fe31f9"
+                        horizontalOffset: -2
+                        verticalOffset: 5
+                        spread: 0.35
+                    }
                 }
-            }
 
-            Text {
-                id: gameInfoText33
-                color: "white"
-                font.pixelSize: infoGames.height * 0.35
-                font.family: fontLoader2.name
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                minimumPixelSize: 15
-                layer.enabled: true
-                layer.effect: DropShadow {
-                    radius: 20
-                    samples: 20
-                    color: "#fe31f9"
-                    horizontalOffset: -2
-                    verticalOffset: 5
-                    spread: 0.35
+                Text {
+                    id: gameInfoText33
+                    color: "white"
+                    font.pixelSize: infoGames.height * 0.35
+                    font.family: fontLoader2.name
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    minimumPixelSize: 15
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 20
+                        samples: 20
+                        color: "#fe31f9"
+                        horizontalOffset: -2
+                        verticalOffset: 5
+                        spread: 0.35
+                    }
                 }
             }
         }
@@ -1153,11 +1186,10 @@ FocusScope {
 
     function updateGameInfo3() {
         var game = favoritesProxyModel.get(favoriteListView.currentIndex);
-        if (game) {
+        if (game && game.collections) {
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
-
             gameInfoText4.text = "Collection: " + collections;
         } else {
             gameInfoText4.text = "";
@@ -1168,7 +1200,7 @@ FocusScope {
         id: favoriteGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.86
-        height: parent.height * 0.89
+        height: parent.height * 0.86
         radius: 160
         color: "transparent"
         clip: true
@@ -1207,7 +1239,7 @@ FocusScope {
                 width: parent.width
                 height: parent.height * 0.90
                 model: favoritesProxyModel
-                
+
                 delegate: Item {
                     width: favoriteListView.width
                     height: favoriteListView.height * 0.1
@@ -1220,24 +1252,41 @@ FocusScope {
                         }
                     }
 
-                    Text {
-                        id: titleText1
-                        anchors.centerIn: parent
-                        text: favoriteListView.currentIndex === index ? "🎔 " + shortenedTitle : shortenedTitle
-                        font.family: fontLoader.name
-                        font.pixelSize: Math.min(favoriteGameslistview.height / 25, favoriteGameslistview.width / 2)
-                        color: "yellow"
-                        elide: Text.ElideMiddle
-                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "transparent"
+                        
+                        Row {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            spacing: 10
+                            
+                            Image {
+                                id: favoriteIcon
+                                width: titleText1.height
+                                height: titleText1.height
+                                source: favoriteListView.currentIndex === index ? "assets/icons/favorite.ico" : ""
+                                visible: source !== ""
+                            }
 
-                    DropShadow {
-                        anchors.fill: titleText1
-                        source: titleText1
-                        radius: 5
-                        samples: 40
-                        color: "#f21f25"
-                        horizontalOffset: -4
-                        verticalOffset: 4
+                            Text {
+                                id: titleText1
+                                text: shortenedTitle
+                                font.family: fontLoader.name
+                                font.pixelSize: Math.min(favoriteGameslistview.height / 25, favoriteGameslistview.width / 2)
+                                color: "yellow"
+                                elide: Text.ElideMiddle
+                                verticalAlignment: Text.AlignVCenter
+                                layer.enabled: true
+                                layer.effect: DropShadow {
+                                    radius: 5
+                                    samples: 40
+                                    color: "#f21f25"
+                                    horizontalOffset: -4
+                                    verticalOffset: 4
+                                }
+                            }
+                        }
                     }
                 }
             
@@ -1249,7 +1298,6 @@ FocusScope {
                         updateGameInfo3();
                     }
                 }
-
 
                 Keys.onUpPressed: {
                     if (currentIndex > 0) {
@@ -1324,57 +1372,61 @@ FocusScope {
             }
         }
 
-        Item {
+        Rectangle {
             id: infoGames3
             height: parent.height * 0.10
             width: parent.width
-            anchors.bottom: favoriteGamesConteiner.bottom
-            anchors.bottomMargin: -30 
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: favoriteGamesConteiner.bottom 
+            anchors.topMargin: 5
+            color: "transparent"
 
-            Text {
-                id: gameInfoText4
-                color: "white"
-                visible: favoritesProxyModel.count > 0 
-                font.pixelSize: infoGames3.height * 0.40
-                font.family: fontLoader2.name
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                minimumPixelSize: 15
-                layer.enabled: true
-                layer.effect: DropShadow {
-                    radius: 20
-                    samples: 20
-                    color: "#fe31f9"
-                    horizontalOffset: -2
-                    verticalOffset: 5
-                    spread: 0.35
+            Column {
+                anchors.centerIn: parent
+
+                Text {
+                    id: gameInfoText4
+                    color: "white"
+                    visible: favoritesProxyModel.count > 0 
+                    font.pixelSize: infoGames3.height * 0.40
+                    font.family: fontLoader2.name
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    minimumPixelSize: 15
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 20
+                        samples: 20
+                        color: "#fe31f9"
+                        horizontalOffset: -2
+                        verticalOffset: 5
+                        spread: 0.35
+                    }
                 }
             }
         }
     }
-        
+
     function updateGameInfo4() {
         var game = gamesFiltered.get(searchResulView.currentIndex);
-        if (game) {
+        if (game && game.collections) {
             var collections = game.collections.toVarArray().map(function(collection) {
                 return collection.name;
             }).join(", ");
-
             gameInfoText5.text = "Collection: " + collections;
         } else {
             gameInfoText5.text = "";
         }
     }
 
-
     Rectangle {
         id: searchGamesConteiner
         anchors.centerIn: parent
         width: parent.width * 0.80
-        height: parent.height * 0.89
+        height: parent.height * 0.85
         visible: keyboardRetroVisible
         color: "transparent" 
         clip: true
@@ -1400,24 +1452,26 @@ FocusScope {
                     anchors.margins: 10
                     spacing: 2
 
-                    Text {
-                        id: searchSymbol
-                        text: "\uD83D\uDF6F"
-                        color: "#fe26d8"
-                        font.family: fontLoader.name
-                        font.pixelSize: 24
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.bold: true
-                        anchors.verticalCenter: parent.verticalCenter
-                        layer.enabled: true
-                        layer.effect: DropShadow {
-                            radius: 20
-                            samples: 20
-                            color: "#f21f25"
-                            horizontalOffset: -2
-                            verticalOffset: 5
-                            spread: 0.35
+                    Item {
+                        width: 24
+                        height: 24
+
+                        Image {
+                            id: searchSymbol
+                            source: "assets/icons/search.svg"
+                            anchors.centerIn: parent
+                            width: 24
+                            height: 24
+
+                            layer.enabled: true
+                            layer.effect: DropShadow {
+                                radius: 20
+                                samples: 20
+                                color: "#f21f25"
+                                horizontalOffset: -2
+                                verticalOffset: 5
+                                spread: 0.35
+                            }
                         }
                     }
 
@@ -1485,7 +1539,6 @@ FocusScope {
                     delegate: Item {
                         width: searchResulView.width
                         height: searchResulView.height * 0.13
-
                         property string shortenedTitle: {
                             var maxLength = 24;
                             if (modelData.title.length > maxLength) {
@@ -1494,40 +1547,50 @@ FocusScope {
                                 return modelData.title;
                             }
                         }
+                        
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: "transparent"
+                            
+                            Row {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                spacing: 15
+                                
+                                Image {
+                                    id: icon2
+                                    width: titleText2.height +7
+                                    height: titleText2.height +7
+                                    source: {
+                                        if (modelData.favorite && searchResulFocused && searchResulView.currentIndex === index) {
+                                            return "assets/icons/favorite.ico";
+                                        } else if (searchResulFocused && searchResulView.currentIndex === index) {
+                                            return "assets/icons/game.ico";
+                                        } else {
+                                            return "";
+                                        }
+                                    }
+                                    visible: source !== ""
+                                }
 
-                        Text {
-                            id: titleText2
-                            anchors {
-                                top: parent.top
-                                horizontalCenter: parent.horizontalCenter
-                                topMargin: 10
-                            }
-                            text: {
-                                if (modelData.favorite && searchResulFocused && searchResulView.currentIndex === index) {
-                                    return "🎔 " + shortenedTitle;
-                                } else if (modelData.favorite) {
-                                    return "" + shortenedTitle;
-                                } else if (searchResulFocused && searchResulView.currentIndex === index) {
-                                    return "\uD83C\uDFAE " + shortenedTitle;
-                                } else {
-                                    return "" + shortenedTitle;
+                                Text {
+                                    id: titleText2
+                                    text: shortenedTitle
+                                    font.family: fontLoader.name
+                                    font.pixelSize: Math.min(searchResulView.height / 20, searchResulView.width / 20)
+                                    color: "yellow"
+                                    elide: Text.ElideMiddle
+                                    verticalAlignment: Text.AlignVCenter
+                                    layer.enabled: true
+                                    layer.effect: DropShadow {
+                                        radius: 5
+                                        samples: 40
+                                        color: "#f21f25"
+                                        horizontalOffset: -4
+                                        verticalOffset: 4
+                                    }
                                 }
                             }
-
-                            font.family: fontLoader.name
-                            font.pixelSize: Math.min(searchResul.height / 12, searchResul.width / 4)
-                            color: "yellow"
-                            elide: Text.ElideMiddle
-                        }
-
-                        DropShadow {
-                            anchors.fill: titleText2
-                            source: titleText2
-                            radius: 5
-                            samples: 40
-                            color: "#f21f25"
-                            horizontalOffset: -4
-                            verticalOffset: 4
                         }
                     }
 
@@ -1626,7 +1689,6 @@ FocusScope {
                 color: "black"
                 border.color: "blue"
                 border.width: 5
-                opacity: 0.8
                 radius: 40
                 
                 property int currentIndex: 0
@@ -1686,7 +1748,6 @@ FocusScope {
                     }
                 }
 
-
                 Grid {
                     anchors.centerIn: parent
                     columns: 13
@@ -1696,18 +1757,41 @@ FocusScope {
                     Repeater {
                         model: ["A","B","C","D","E","F","G","H","I","J","K","L","M",
                                 "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
-                                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9","𝪈","\u232B"]
+                                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9","spacing","delete"]
 
-                        delegate: Text {
-                            id: lettersNumbers
-                            anchors.leftMargin: 50
-                            anchors.rightMargin: 50
-                            text: modelData
-                            font.family: fontLoader.name
-                            font.pixelSize: Math.min(keyboardRetro.height / 5, keyboardRetro.width / 2)
-                            color: (index === keyboardRetro.currentIndex && keyboardRetroFocused) ? "#fe26d8" : "#fff900"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
+                        delegate: Item {
+                            width: keyboardRetro.width / 18
+                            height: keyboardRetro.height / 4
+
+                            Component.onCompleted: {
+                                if (modelData === "delete" || modelData === "spacing") {
+                                    lettersNumbers.visible = false;
+                                    icon.visible = true;
+                                }
+                            }
+
+                            Text {
+                                id: lettersNumbers
+                                anchors.fill: parent
+                                text: modelData
+                                font.family: fontLoader.name
+                                font.pixelSize: Math.min(keyboardRetro.height / 5, keyboardRetro.width / 2)
+                                color: (index === keyboardRetro.currentIndex && keyboardRetroFocused) ? "#fe26d8" : "#fff900"
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Image {
+                                id: icon
+                                width: lettersNumbers.height -12
+                                height: lettersNumbers.height -12
+                                source: modelData === "delete" ? 
+                                    (index === keyboardRetro.currentIndex && keyboardRetroFocused ? "assets/icons/del_inactive.svg" : "assets/icons/del.svg") :
+                                    modelData === "spacing" ?
+                                    (index === keyboardRetro.currentIndex && keyboardRetroFocused ? "assets/icons/spacebar_inactive.svg" : "assets/icons/spacebar.svg") : ""
+                                visible: false
+                            }
+
                             layer.enabled: true
                             layer.effect: DropShadow {
                                 radius: 5
@@ -1722,13 +1806,15 @@ FocusScope {
             }
         }
 
-        Item {
+        Rectangle {
             id: infoGames4
             height: parent.height * 0.05
             width: parent.width
-            anchors.bottom: searchGamesConteiner.bottom
-            anchors.bottomMargin: -5
-            visible: searchResulFocused      
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: searchGamesConteiner.bottom 
+            anchors.topMargin: 5 
+            visible: searchResulFocused
+            color: "transparent"
 
             Text {
                 id: gameInfoText5
@@ -1796,15 +1882,16 @@ FocusScope {
             anchors.fill: parent
 
             Column {
-                //anchors.centerIn: parent
                 anchors.bottom: parent.bottom
-                Text {
-                    id: okText
-                    text: "🅐 SELECT"
-                    color: "#fff900"
-                    font.family: fontLoader.name
-                    font.bold: true
-                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
+                spacing: 5
+
+                Row {
+                    spacing: 10
+                    Image {
+                        source: "assets/icons/A.svg"
+                        width: okText.font.pixelSize +5
+                        height: okText.font.pixelSize +5
+                    }
                     layer.enabled: true
                     layer.effect: DropShadow {
                         radius: 5
@@ -1813,16 +1900,25 @@ FocusScope {
                         horizontalOffset: -4
                         verticalOffset: 4
                     }
+                    Text {
+                        id: okText
+                        text: "SELECT"
+                        color: "#fff900"
+                        font.family: fontLoader.name
+                        font.bold: true
+                        font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
+                    }
                 }
 
-                Text {
-                    id: backText
-                    text: "🅑 BACK"
-                    color: "#fff900"
-                    font.family: fontLoader.name
-                    font.bold: true
-                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
-                    visible: !mainMenuVisible
+                Row {
+                    spacing: 10
+                    Image {
+                        id: iconB
+                        source: "assets/icons/B.svg"
+                        width: backText.font.pixelSize +5
+                        height: backText.font.pixelSize +5
+                        visible: !mainMenuVisible
+                    }
                     layer.enabled: true
                     layer.effect: DropShadow {
                         radius: 5
@@ -1831,16 +1927,25 @@ FocusScope {
                         horizontalOffset: -4
                         verticalOffset: 4
                     }
+                    Text {
+                        id: backText
+                        text: "BACK"
+                        color: "#fff900"
+                        font.family: fontLoader.name
+                        font.bold: true
+                        font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
+                        visible: !mainMenuVisible
+                    }
                 }
 
-                Text {
-                    id: favText
-                    text: "🅧 FAVORITE "
-                    color: "#fff900"
-                    font.family: fontLoader.name
-                    font.bold: true
-                    font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
-                    visible: !mainMenuVisible
+                Row {
+                    spacing: 10
+                    Image {
+                        source: "assets/icons/X.svg"
+                        width: favText.font.pixelSize +5
+                        height: favText.font.pixelSize +5
+                        visible: !mainMenuVisible
+                    }
                     layer.enabled: true
                     layer.effect: DropShadow {
                         radius: 5
@@ -1848,10 +1953,20 @@ FocusScope {
                         color: "#f21f25"
                         horizontalOffset: -4
                         verticalOffset: 4
+                    }
+                    Text {
+                        id: favText
+                        text: "FAVORITE"
+                        color: "#fff900"
+                        font.family: fontLoader.name
+                        font.bold: true
+                        font.pixelSize: Math.min(rect5.width * 0.1, rect5.height * 0.2)
+                        visible: !mainMenuVisible
                     }
                 }
             }
         }
+
     }
 
     Rectangle {
