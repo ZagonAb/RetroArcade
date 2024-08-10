@@ -1,4 +1,4 @@
-# RetroArcade
+![a](https://github.com/user-attachments/assets/16eee113-6d45-4cd6-944d-47eeaec0b37a)# RetroArcade
 RetroArcade tema para pegasus frontend.
 - El tema ha sido diseñado con un estilo retro que evoca la estética de los videojuegos clásicos de los años 80 y 90. La pantalla principal presenta un tema de arcade que incluye colores brillantes, gráficos pixelados y un fondo urbano nocturno que añade un toque de nostalgia..
 # Concepto Principal:
@@ -14,6 +14,7 @@ RetroArcade tema para pegasus frontend.
 # Etiquetas Personalizadas:
 - Cada opción del menú incluye una etiqueta personalizada como parte del contenido:
 - ALL GAMES: !<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m572-222-74-77 130-130H128v-106h500L498-665l74-77 260 260-260 260Z"/></svg>[Uploading a.svg…]()
+
 - CONTINUE PLAYING: !<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>[Uploading play.svg…]()
 
 - SEARCH GAMES:<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M23 6H1v12h22V6zm-12 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>![games](https://github.com/user-attachments/assets/204f7436-5ed5-4ebf-b5cd-34f54d249044)
