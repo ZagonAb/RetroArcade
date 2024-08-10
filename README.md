@@ -13,13 +13,13 @@ RetroArcade tema para pegasus frontend.
 - Search Games: Si no se encuentra el juego buscado, se muestra un mensaje informativo para notificar al usuario que no hay coincidencia para su busqueda.
 # Etiquetas Personalizadas:
 - Cada opción del menú incluye una etiqueta personalizada como parte del contenido:
-- ALL GAMES:![a](https://github.com/user-attachments/assets/bfe15296-1362-4005-b270-0764cd6f8d91)
+- ALL GAMES: ![a](https://github.com/user-attachments/assets/bfe15296-1362-4005-b270-0764cd6f8d91)
 
-- CONTINUE PLAYING:![play](https://github.com/user-attachments/assets/ce015269-765b-46bd-a9ed-f6d9011efb39)
+- CONTINUE PLAYING: ![play](https://github.com/user-attachments/assets/ce015269-765b-46bd-a9ed-f6d9011efb39)
 
-- SEARCH GAMES:![games](https://github.com/user-attachments/assets/b49e2c25-14ce-448c-bae2-bce4e8ee73bf)
+- SEARCH GAMES: ![games](https://github.com/user-attachments/assets/b49e2c25-14ce-448c-bae2-bce4e8ee73bf)
 
-- FAVORITE GAMES:![favorite](https://github.com/user-attachments/assets/f2c9d957-6d7f-44f7-9f55-954952918207)
+- FAVORITE GAMES: ![favorite](https://github.com/user-attachments/assets/f2c9d957-6d7f-44f7-9f55-954952918207)
 
 
   # Gestión de Juegos Favoritos:
