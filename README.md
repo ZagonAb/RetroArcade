@@ -1,4 +1,4 @@
-# RetroArcade
+![play](https://github.com/user-attachments/assets/164f801c-3287-4410-ac10-8ae91567c83d)![a](https://github.com/user-attachments/assets/7051602f-d154-4abd-a50d-475b524a40e2)# RetroArcade
 RetroArcade tema para pegasus frontend.
 - El tema ha sido diseñado con un estilo retro que evoca la estética de los videojuegos clásicos de los años 80 y 90. La pantalla principal presenta un tema de arcade que incluye colores brillantes, gráficos pixelados y un fondo urbano nocturno que añade un toque de nostalgia..
 # Concepto Principal:
@@ -13,17 +13,18 @@ RetroArcade tema para pegasus frontend.
 - Search Games: Si no se encuentra el juego buscado, se muestra un mensaje informativo para notificar al usuario que no hay coincidencia para su busqueda.
 # Etiquetas Personalizadas:
 - Cada opción del menú incluye una etiqueta personalizada como parte del contenido:
-- ALL GAMES:
+- ALL GAMES:![a](https://github.com/user-attachments/assets/bfe15296-1362-4005-b270-0764cd6f8d91)
 
+- CONTINUE PLAYING:![play](https://github.com/user-attachments/assets/ce015269-765b-46bd-a9ed-f6d9011efb39)
 
-- CONTINUE PLAYING:
+- SEARCH GAMES:![games](https://github.com/user-attachments/assets/b49e2c25-14ce-448c-bae2-bce4e8ee73bf)
 
-- SEARCH GAMES:<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M23 6H1v12h22V6zm-12 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>![games](https://github.com/user-attachments/assets/204f7436-5ed5-4ebf-b5cd-34f54d249044)
- 
-- FAVORITE GAMES: 
+- FAVORITE GAMES:![favorite](https://github.com/user-attachments/assets/f2c9d957-6d7f-44f7-9f55-954952918207)
+
 
   # Gestión de Juegos Favoritos:
-- La opción de agregar o quitar un juego de la colección "FAVORITE GAMES" se puede hacer desde cualquiera de las cuatro opciones del menú principal. Es decir, se puede agregar o quitar de favorito cualquier juego desde "ALL GAMES", "SEARCH GAMES", "CONTINUE PLAYING" y, obviamente, desde "FAVORITE GAMES". Al marcar un juego como favorito, automáticamente se cambiará la etiqueta a "", sin importar en qué sección se encuentre, para poder identificar si el juego es parte de su colección de favoritos.
+- La opción de agregar o quitar un juego de la colección "FAVORITE GAMES" se puede hacer desde cualquiera de las cuatro opciones del menú principal. Es decir, se puede agregar o quitar de favorito cualquier juego desde "ALL GAMES", "SEARCH GAMES", "CONTINUE PLAYING" y, obviamente, desde "FAVORITE GAMES". Al marcar un juego como favorito, automáticamente se cambiará la etiqueta a "![favorite](https://github.com/user-attachments/assets/d31524f4-7e07-4b94-a92d-8799656d63a3)
+", sin importar en qué sección se encuentre, para poder identificar si el juego es parte de su colección de favoritos.
   # Gestión de Seguir Jugando:
 - La opción 'Continue Playing' mostrará únicamente los juegos con más de un minuto de juego y que se hayan jugado en los últimos 7 días. Esta selección tiene como objetivo mantener una colección más limpia y actualizada, excluyendo juegos con menos de un minuto de juego y que no se han jugado en los últimos 7 días, evitando así acumular juegos lanzados por error.
  # Configuración de fondo y overlay: 
