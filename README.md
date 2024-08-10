@@ -1,4 +1,4 @@
-![play](https://github.com/user-attachments/assets/164f801c-3287-4410-ac10-8ae91567c83d)![a](https://github.com/user-attachments/assets/7051602f-d154-4abd-a50d-475b524a40e2)# RetroArcade
+# RetroArcade
 RetroArcade tema para pegasus frontend.
 - El tema ha sido diseñado con un estilo retro que evoca la estética de los videojuegos clásicos de los años 80 y 90. La pantalla principal presenta un tema de arcade que incluye colores brillantes, gráficos pixelados y un fondo urbano nocturno que añade un toque de nostalgia..
 # Concepto Principal:
