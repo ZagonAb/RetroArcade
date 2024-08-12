@@ -156,6 +156,7 @@ FocusScope {
         height: parent.height * 0.90
         anchors.centerIn: parent
         playing: true
+        cache: false
     }
 
     LinearGradient {
