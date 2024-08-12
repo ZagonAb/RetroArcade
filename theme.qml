@@ -19,7 +19,7 @@ FocusScope {
     property bool keyboardRetroFocused: false
     property bool searchResulFocused: false
     property int currentBackgroundIndex: 0
-    property int maxBackgroundIndex: 3
+    property int maxBackgroundIndex: 8
     property int currentOverlayIndex: 0
     property int maxOverlayIndex: 3
 
