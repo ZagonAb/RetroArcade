@@ -44,8 +44,5 @@ RetroArcade tema para pegasus frontend.
 ![4](https://github.com/user-attachments/assets/62b185ed-7d0b-481b-a5f1-24d2bd786c63)
 ![5](https://github.com/user-attachments/assets/7795326a-a054-4366-b03f-a2b694249381)
 
-  
-# Aceptación de Sugerencias:
-- Estoy abierto a sugerencias y comentarios sobre esta interfaz. Si tienes alguna idea o recomendación para mejorar la experiencia del usuario, no dudes en compartirla. Tu retroalimentación es valiosa para mi y me ayudará a perfeccionar aún más este tema.
 # Licencia
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a>
