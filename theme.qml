@@ -175,7 +175,6 @@ FocusScope {
 
     Item{
         anchors.fill: parent
-
         Rectangle{
             id: rect0
             anchors.horizontalCenter: parent.horizontalCenter
